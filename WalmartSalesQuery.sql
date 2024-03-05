@@ -3,6 +3,7 @@ CREATE DATABASE WalmartSales_Analysis;
 SELECT * FROM sales
 WHERE Branch IS NULL;
 
+
 /* Product Analysis
 > Conduct analysis on the data to understand the different product lines, the products lines performing best and
 the product lines that need to be improved. */
@@ -24,7 +25,29 @@ GROUP BY Product_line
 ORDER BY Product_sales DESC;
 
 --4. What is the total revenue by month?
+SELECT Date, DATENAME(MONTH, Date) AS Month_Name
+FROM sales;
+
+ALTER TABLE sales
+ADD Mnth_Name TEXT;
+
+ALTER TABLE sales
+ALTER COLUMN Mnth_Name CHAR(10);
+
+UPDATE sales
+SET Mnth_Name = DATENAME(MONTH, Date);
+
+SELECT Mnth_Name, ROUND(SUM(Total), 2) AS Revenue
+FROM sales
+GROUP BY Mnth_Name
+ORDER BY Revenue DESC;
+
 --5. What month had the largest COGS?
+SELECT Mnth_Name, ROUND(SUM(cogs), 2) AS Total_COGS
+FROM sales
+GROUP BY Mnth_Name
+ORDER BY Total_COGS DESC;
+
 --6. What product line had the largest revenue?
 --5. What is the city with the largest revenue?
 --6. What product line had the largest VAT?

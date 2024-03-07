@@ -49,12 +49,50 @@ GROUP BY Mnth_Name
 ORDER BY Total_COGS DESC;
 
 --6. What product line had the largest revenue?
+SELECT Product_line, ROUND(SUM(Total), 2) AS Product_Total_Sales
+FROM sales
+GROUP BY Product_line
+ORDER BY Product_Total_Sales DESC;
+
 --5. What is the city with the largest revenue?
+SELECT City, ROUND(SUM(Total), 2) AS RevenuebyCity
+FROM sales
+GROUP BY City
+ORDER BY RevenuebyCity DESC;
+
 --6. What product line had the largest VAT?
+SELECT Product_line, ROUND(SUM(Tax), 2) AS VAT
+FROM sales
+GROUP BY Product_line
+ORDER BY VAT DESC;
+
 --7. Fetch each product line and add a column to those product line showing "Good", "Bad". Good if its greater than average sales
+SELECT Product_line,
+CASE
+	WHEN SUM(Total) > AVG(Total) THEN 'Good'
+	ELSE 'Bad'
+END AS Sales_Status
+FROM sales
+GROUP BY Product_line;
+
 --8. Which branch sold more products than average product sold?
+SELECT Branch, AVG(Quantity) AS AveragePrdctSold, SUM(Quantity) AS NumberPrdctSold
+FROM sales
+GROUP BY Branch
+HAVING SUM(Quantity) > AVG(Quantity)
+ORDER BY Branch;
+
 --9. What is the most common product line by gender?
---12. What is the average rating of each product line?
+SELECT Gender, Product_line, COUNT(Product_line) AS CmnProductLine
+FROM sales
+GROUP BY Gender, Product_line
+ORDER BY CmnProductLine DESC;
+
+--10. What is the average rating of each product line?
+SELECT Product_line, ROUND(AVG(Rating), 2) AS Average_Rating
+FROM sales
+GROUP BY Product_line
+ORDER BY Average_Rating DESC;
 
 /* Sales Analysis
 

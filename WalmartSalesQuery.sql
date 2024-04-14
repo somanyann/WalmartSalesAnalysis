@@ -1,6 +1,6 @@
 CREATE DATABASE WalmartSales_Analysis;
 
-SELECT * FROM sales
+SELECT * FROM WalmartSales_Analysis.dbo.sales
 WHERE Branch IS NULL;
 
 
@@ -9,7 +9,7 @@ WHERE Branch IS NULL;
 the product lines that need to be improved. */
 
 --1. How many unique product lines does the data have?
-SELECT COUNT(DISTINCT Product_line)
+SELECT COUNT(DISTINCT product_line)
 FROM sales;
 
 --2. What is the most common payment method?
@@ -29,10 +29,8 @@ SELECT Date, DATENAME(MONTH, Date) AS Month_Name
 FROM sales;
 
 ALTER TABLE sales
-ADD Mnth_Name TEXT;
+ADD Mnth_Name CHAR(10);
 
-ALTER TABLE sales
-ALTER COLUMN Mnth_Name CHAR(10);
 
 UPDATE sales
 SET Mnth_Name = DATENAME(MONTH, Date);
@@ -61,7 +59,7 @@ GROUP BY City
 ORDER BY RevenuebyCity DESC;
 
 --6. What product line had the largest VAT?
-SELECT Product_line, ROUND(SUM(Tax), 2) AS VAT
+SELECT Product_line, ROUND(SUM(VAT), 2) AS VAT
 FROM sales
 GROUP BY Product_line
 ORDER BY VAT DESC;
